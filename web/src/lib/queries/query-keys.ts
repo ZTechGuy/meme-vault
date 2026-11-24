@@ -67,6 +67,7 @@ export const QueryKeys = {
 
   // assets
   assetStatistics: (params: Parameters<typeof getAssetStatistics>[0]) => ['assets', 'statistics', params],
+  assetOcr: ({ id }: IdParams) => ['assets', id, 'ocr'],
 
   // auth
   authStatus: () => ['auth', 'status'],

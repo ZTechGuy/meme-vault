@@ -1,7 +1,7 @@
 import { eventManager } from '#lib/managers/event-manager.svelte.ts';
 import { asMutation } from '#lib/queries/client.ts';
 import { QueryKeys } from '#lib/queries/query-keys.ts';
-import { deleteAssets, getAssetStatistics, runAssetJobs, updateAsset, updateAssets } from '@immich/sdk';
+import { deleteAssets, getAssetOcr, getAssetStatistics, runAssetJobs, updateAsset, updateAssets } from '@immich/sdk';
 import { queryOptions, type MutationMeta } from '@tanstack/svelte-query';
 
 type AssetStatisticsFilter = Parameters<typeof getAssetStatistics>[0];
@@ -10,6 +10,13 @@ export const getAssetStatisticsQuery = (filter: AssetStatisticsFilter) =>
   queryOptions({
     queryKey: QueryKeys.assetStatistics(filter),
     queryFn: ({ signal }) => getAssetStatistics(filter, { signal }),
+    staleTime: 0,
+  });
+
+export const getAssetOcrQuery = (id: string) =>
+  queryOptions({
+    queryKey: QueryKeys.assetOcr({ id }),
+    queryFn: ({ signal }) => getAssetOcr({ id }, { signal }),
     staleTime: 0,
   });
 
