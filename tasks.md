@@ -3,10 +3,10 @@
 ## Milestone 0 — Fork & Bootstrap (done-ish)
 - [x] Fork immich-app/immich → ZTechGuy/meme-vault
 - [x] Rename repo to meme-vault
-- [ ] Clone locally and verify build
+- [x] Clone locally and verify build
 - [ ] Add `upstream` remote for syncing immich
 - [ ] CI: build & push images on main
-- [ ] Flux manifests for memes.marinfam.cloud
+- [x] Docker compose with Traefik labels for memes.marinfam.cloud
 
 ## Milestone 1 — Rebrand & Baseline (MVP foundation)
 - [ ] Rebrand web: title, logo, favicon, colors, copy → "Meme-Vault"
