@@ -1,0 +1,82 @@
+#
+# Meme-Vault Docker Compose (Production)
+# Run from project root: docker compose up -d
+#
+# Requires the external 'proxy' network (created by cosmos-migration/Traefik).
+# Create it if missing: docker network create proxy
+#
+
+name: meme-vault
+
+services:
+  meme-vault-server:
+    container_name: meme-vault_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    volumes:
+      - ${UPLOAD_LOCATION}:/data
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      IMMICH_PROXY: "true"
+      IMMICH_TRUSTED_PROXIES: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fd00::/8,127.0.0.1/32,::1/128"
+      IMMICH_MACHINE_LEARNING_URL: http://meme-vault-machine-learning:3003
+    depends_on:
+      - redis
+      - database
+    restart: always
+    healthcheck:
+      disable: false
+    networks:
+      - proxy
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.meme-vault.rule=Host(`memes.marinfam.cloud`)"
+      - "traefik.http.routers.meme-vault.entrypoints=websecure"
+      - "traefik.http.routers.meme-vault.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.meme-vault.middlewares=security-headers@file"
+      - "traefik.http.services.meme-vault.loadbalancer.server.port=2283"
+      - "traefik.docker.network=proxy"
+
+  meme-vault-machine-learning:
+    container_name: meme-vault_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    volumes:
+      - model-cache:/cache
+    env_file:
+      - .env
+    environment:
+      MACHINE_LEARNING_MODEL_REVISION: v2
+    restart: always
+    healthcheck:
+      disable: false
+
+  redis:
+    container_name: meme-vault_redis
+    image: docker.io/valkey/valkey:9@sha256:3add1a336a920ea54770a001ab6feb3da5fceea96a40373a3a2cd469b815f0b7
+    healthcheck:
+      test: redis-cli ping | grep -q PONG || exit 1
+    restart: always
+
+  database:
+    container_name: meme-vault_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    volumes:
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: always
+    healthcheck:
+      disable: false
+
+volumes:
+  model-cache:
+
+networks:
+  proxy:
+    external: true
