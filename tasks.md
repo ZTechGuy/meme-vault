@@ -9,9 +9,9 @@
 - [x] Docker compose with Traefik labels for memes.marinfam.cloud
 
 ## Milestone 1 — Rebrand & Baseline (MVP foundation)
-- [ ] Rebrand web: title, logo, favicon, colors, copy → "Meme-Vault"
-- [ ] Rebrand server: app name, emails, defaults
-- [ ] Verify full stack runs via docker-compose (server+web+ml+db+redis)
+- [x] Rebrand web: title, manifest, noscript, copy → "Meme-Vault"
+- [x] Rebrand server: app name (swagger, passkey), emails, i18n
+- [x] Verify full stack runs via docker-compose (server+web+ml+db+redis)
 - [ ] Smoke test: upload image, view thumbnail, search text
 
 ## Milestone 2 — Meme-optimized UX
