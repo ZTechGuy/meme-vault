@@ -45,7 +45,7 @@
     sharedLink = link;
     setSharedLink(link);
     passwordRequired = false;
-    title = (link.album ? link.album.albumName : $t('public_share')) + ' - Immich';
+    title = (link.album ? link.album.albumName : $t('public_share')) + ' - Meme-Vault';
     await tick();
     await navigate(
       { targetRoute: 'current', assetId: null, assetGridRouteSearchParams: assetViewerManager.gridScrollTarget },

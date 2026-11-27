@@ -8,11 +8,11 @@ import FutoLayout from 'src/emails/components/futo.layout.js';
  * Variable is {{LICENSEKEY}}
  * */
 export const LicenseEmail = () => (
-  <FutoLayout preview="Your Immich Server License">
-    <Text>Thank you for supporting Immich and open-source software</Text>
+  <FutoLayout preview="Your Meme-Vault Server License">
+    <Text>Thank you for supporting Meme-Vault and open-source software</Text>
 
     <Text>
-      Your <strong>Immich</strong> key is
+      Your <strong>Meme-Vault</strong> key is
     </Text>
 
     <Section className="my-2 bg-gray-200 rounded-2xl text-center p-4">

@@ -21,6 +21,14 @@ services:
       IMMICH_PROXY: "true"
       IMMICH_TRUSTED_PROXIES: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fd00::/8,127.0.0.1/32,::1/128"
       IMMICH_MACHINE_LEARNING_URL: http://meme-vault-machine-learning:3003
+      IMMICH_OIDC_ENABLED: "true"
+      IMMICH_OIDC_ISSUER_URL: "https://auth.marinfam.cloud/application/o/memes-oidc/"
+      IMMICH_OIDC_CLIENT_ID: "jx55KDIVD3qe6qyMMtthBaRxppMPdnJa81LIHG7D"
+      IMMICH_OIDC_CLIENT_SECRET: "Ko4nl9Pu8OYEreiY81qGTXhyLOikiqjfhWfEvoMf6eZJixftbDmtTPSHZdCeKtQpuea9q7orJlHw602xWDnNifwifHNYVX7n0zGUyuERxZs76DpJ5iygfSYZDzP4G0YE"
+      IMMICH_OIDC_SCOPE: "openid email profile"
+      IMMICH_OIDC_BUTTON_TEXT: "Login with Authentik"
+      IMMICH_OIDC_AUTO_REGISTER: "true"
+      IMMICH_OIDC_AUTO_LAUNCH: "false"
     depends_on:
       - redis
       - database
@@ -35,7 +43,7 @@ services:
       - "traefik.http.routers.meme-vault.rule=Host(`memes.marinfam.cloud`)"
       - "traefik.http.routers.meme-vault.entrypoints=websecure"
       - "traefik.http.routers.meme-vault.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.meme-vault.middlewares=security-headers@file"
+      - "traefik.http.routers.meme-vault.middlewares=authentik@file,security-headers@file"
       - "traefik.http.services.meme-vault.loadbalancer.server.port=2283"
       - "traefik.docker.network=proxy"
 

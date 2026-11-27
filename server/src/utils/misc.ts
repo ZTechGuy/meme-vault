@@ -315,8 +315,8 @@ const patchOpenAPI = (document: OpenAPIObject) => {
 
 export const useSwagger = (app: INestApplication, { write }: { write: boolean }) => {
   const builder = new DocumentBuilder()
-    .setTitle('Immich')
-    .setDescription('Immich API')
+    .setTitle('Meme-Vault')
+    .setDescription('Meme-Vault API')
     .setVersion(serverVersion.toString())
     .setOpenAPIVersion('3.1.0')
     .addBearerAuth({
@@ -358,7 +358,7 @@ export const useSwagger = (app: INestApplication, { write }: { write: boolean })
     },
     jsonDocumentUrl: '/api/spec.json',
     yamlDocumentUrl: '/api/spec.yaml',
-    customSiteTitle: 'Immich API Documentation',
+    customSiteTitle: 'Meme-Vault API Documentation',
   };
 
   SwaggerModule.setup('doc', app, specification, customOptions);
