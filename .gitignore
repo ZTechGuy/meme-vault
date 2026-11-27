@@ -29,3 +29,8 @@ vite.config.js.timestamp-*
 *.tsbuildinfo
 *.tsbuildInfo
 misc/release/notes.md
+
+# Local data (not committed)
+library/
+postgres/
+.env
